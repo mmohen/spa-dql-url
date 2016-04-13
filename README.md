@@ -1,5 +1,8 @@
 # SPA DQL URL used [Yeoman](http://yeoman.io) generator to generate App
 
+## Describtion 
+This SPA (Single Page Application) takes a DQL query from the URL or input field and render the results in a table. Also it can open pdf documents using `PDF.js`.
+
 ## Project Dependencies
 
 * [NodeJS](https://nodejs.org/) is used to run the app on a server.
