@@ -1,0 +1,27 @@
+<md-toolbar layout="column">
+  <div class="md-toolbar-tools">
+    <div layout="row" flex="flex" class="fill-height">
+      <div ng-hide="toggleSearch" class="md-toolbar-item">
+        <span ng-click="toggleSearch = !toggleSearch">Welcome, dmadmin</span>
+      </div>
+      <span flex="flex" ng-hide="toggleSearch"></span>
+      <md-input-container md-no-float class="md-block" flex="flex" ng-show="toggleSearch">
+        <input type="text" submit-on-enter="submitQuery()" ng-model="searchQuery" placeholder="Enter your DQL Query..."/>
+      </md-input-container>
+      <div layout="row" class="md-toolbar-item md-tools">
+        <md-button ng-show="!toggleSearch" ng-click="toggleSearch = !toggleSearch" class="md-icon-button md-primary" aria-label="Search">
+          <i class="material-icons">search</i>
+        </md-button>
+        <md-button ng-show="toggleSearch" ng-click="toggleSearch = !toggleSearch" class="md-icon-button md-primary" aria-label="Close">
+          <i class="material-icons">close</i>
+        </md-button>
+      </div>
+    </div>
+  </div>
+</md-toolbar>
+<md-content class="table-content" layout-padding layout="column" flex="flex" ng-click="toggleSearch=false">
+  <md-input-container ng-show="content.length != 0 || searching" md-no-float class="md-block" flex="flex">
+    <input type="text" ng-model="filtering" placeholder="Type to filter the results..."/>
+  </md-input-container>
+  <md-table searching="searching" headers="headers" content="content" sortable="sortable" filters="filtering" custom-class="custom" count="count"></md-table>
+</md-content>

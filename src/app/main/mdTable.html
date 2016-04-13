@@ -1,0 +1,52 @@
+<table md-colresize="md-colresize" class="md-table">
+  <thead>
+    <tr class="md-table-headers-row">
+      <th ng-repeat="h in headers" class="md-table-header">
+      	<a href="#" ng-if="handleSort(h.field)" ng-click="reverse=!reverse;order(h.field,reverse)">{{h.name}} <i ng-show="reverse &amp;&amp; h.field == predicate" class="material-icons">arrow_drop_up</i></i><i ng-show="!reverse &amp;&amp; h.field == predicate" class="material-icons">arrow_drop_down</i>
+      	</a>
+      	<span ng-if="!handleSort(h.field)">{{h.name}}</span>
+      </th>
+      <th class="md-table-header"></th>
+    </tr>
+  </thead>
+  <tbody>
+  	<tr class="empty-table" ng-if="content.length == 0 || searching">
+  		<td colspan="7" ng-if="content.length == 0 && !searching" align="center"> <span> To start click on <i class="material-icons">search</i> </span> </td>
+  		<td colspan="7" ng-if="searching" align="center">
+  			<svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+  			   <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+  			</svg>
+  		</td>
+  	</tr>
+    <tr ng-repeat="c in content | filter:filters | startFrom:tablePage*count | limitTo: count" class="md-table-content-row">
+      <td ng-repeat="h in headers" ng-class="customClass[h.field]" class="md-table-content">
+      	<a ui-sref="pdfviewer({ id: c['object_id'] })" target="_blank" ng-if="c['format'].toLowerCase().indexOf('pdf') > -1" href="">{{c[h.field]}}</a>
+      	{{ (c['format'].toLowerCase().indexOf('pdf') > -1) ? '' : c[h.field]}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div layout="row" class="md-table-footer">
+  <span class="md-table-count-info">
+  Rows per page : <a href="#" ng-click="goToPage(0); count=10">10</a>,
+  <a href="#" ng-click="goToPage(0); count=25">25</a>,
+  <a href="#" ng-click="goToPage(0); count=50">50</a>,
+  <a href="#" ng-click="goToPage(0); count=100">100</a>(current is {{count}})
+  </span>
+  <span flex="flex"></span>
+  <span ng-show="nbOfPages() &gt; 1">
+    <md-button ng-disabled="tablePage==0" ng-click="tablePage=tablePage-1" aria-label="Previous Page" class="md-primary md-hue-2 md-table-footer-item">
+      <i style="font-size:16px;" class="material-icons">keyboard_arrow_left</i>
+    </md-button>
+    <a href="#" ng-repeat="i in getNumber(nbOfPages()) track by $index">
+      <md-button ng-click="goToPage($index)" class="md-primary md-hue-2 md-table-footer-item">
+        <span ng-class="{ 'md-table-active-page': tablePage==$index}">
+        {{$index+1}}
+        </span>
+      </md-button>
+    </a>
+    <md-button ng-disabled="tablePage==nbOfPages()-1" ng-click="tablePage=tablePage+1" aria-label="Next Page" class="md-primary md-hue-2 md-table-footer-item">
+      <i style="font-size:16px;" class="material-icons">keyboard_arrow_right</i>
+    </md-button>
+  </span>
+</div>
