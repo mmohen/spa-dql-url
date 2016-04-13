@@ -2,6 +2,7 @@
 
 ## Describtion 
 This SPA (Single Page Application) takes a DQL query from the URL or input field and render the results in a table. Also it can open pdf documents using `PDF.js`.
+The SPA takes the DQL query in this format `localhost:3000/#/q=select * from dm_cabinet`
 
 ## Project Dependencies
 
