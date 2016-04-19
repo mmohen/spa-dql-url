@@ -34,18 +34,29 @@
     $scope.content = [];      
     if($stateParams.query)
     {
-      var query = $stateParams.query.split('=');
-      MainService.fetchDqlQuery(query[1]).then(function(results){
+      var query = $stateParams.query.split('=').slice(1).join('=')
+      $scope.searching = true;
+      MainService.fetchDqlQuery(query).then(function(results){
           $scope.content = results;
           $scope.searching = false;
-      }, function(err){
-        toastr.error("Invalid Query");
-        $scope.searching = false;
+      }, function(status){
+        $scope.errorHandler(status);
         $scope.toggleSearch = true;   
       });
-      $scope.searchQuery = query[1]; 
+      $scope.searchQuery = query; 
     }
     
+    $scope.errorHandler = function(status){
+      if(status === -1){
+        toastr.error("Connection Server Error");        
+      }else{
+        toastr.error("Invalid Query");
+      }
+
+      $scope.searching = false;
+
+    };
+
     $scope.custom = {name: 'bold', owner:'grey' ,object_id: 'grey'};
     $scope.sortable = ['name', 'owner', 'type','format','last_modified','object_id'];
     $scope.count = 10;
@@ -58,9 +69,8 @@
         MainService.fetchDqlQuery($scope.searchQuery).then(function(results){
           $scope.content = results;
           $scope.searching = false;
-        }, function(err){
-          toastr.error("Invalid Query");
-          $scope.searching = false;
+        }, function(status){
+          $scope.errorHandler(status);
           $scope.content = $scope.temp;      
         });        
       }else{
