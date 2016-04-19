@@ -27,8 +27,8 @@
        });
         deferred.resolve(mappedResults);
       })
-      .error(function(err){
-        deferred.reject(err);
+      .error(function(data, status, headers, config){
+        deferred.reject(status);
       });
 
       return deferred.promise;
